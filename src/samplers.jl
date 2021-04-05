@@ -205,7 +205,8 @@ function hyperband_costfun(ex, params, candidates, sampler, ho_, objective)
             ss = string($(esc(sampler)).inner)
             @info "Starting Hyperband with inner sampler $(ss). Setting the number of iterations to R*η^log(η,R)=$(iters), make sure all candidate vectors have this length as well!"
         end
-        costfun = $(objective)
+        
+        costfun = $(esc(objective))
         (::$typeof(costfun))($(esc(params[1])), $(esc(:state))) = $(esc(ex.args[2]))
         costfun, iters
     end
